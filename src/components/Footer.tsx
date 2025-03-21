@@ -33,7 +33,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white pt-16 pb-8" ref={footerRef}>
-      <div className="container mx-auto px-6 opacity-0">
+      <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           <div>
             <h3 className="text-2xl font-bold mb-4">Flypchat</h3>
