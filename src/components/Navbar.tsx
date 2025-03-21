@@ -1,12 +1,13 @@
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +17,34 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Handle scroll to section when hash changes
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location]);
+
+  const scrollToSection = (sectionId: string) => {
+    const isHomePage = location.pathname === '/';
+    
+    if (!isHomePage) {
+      // If not on home page, navigate to home page with hash
+      const hash = sectionId.replace('#', '');
+      window.location.href = `/${sectionId}`;
+      return;
+    }
+
+    // If on home page, scroll to section
+    const element = document.querySelector(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -35,17 +64,38 @@ const Navbar = () => {
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-flyp transition-colors">Home</Link>
-            <Link to="/#experts" className="text-gray-700 hover:text-flyp transition-colors">Experts</Link>
-            <Link to="/#features" className="text-gray-700 hover:text-flyp transition-colors">How It Works</Link>
+            <button 
+              onClick={() => scrollToSection('#hero')} 
+              className="text-gray-700 hover:text-flyp transition-colors"
+            >
+              Home
+            </button>
+            <button 
+              onClick={() => scrollToSection('#experts')} 
+              className="text-gray-700 hover:text-flyp transition-colors"
+            >
+              Experts
+            </button>
+            <button 
+              onClick={() => scrollToSection('#features')} 
+              className="text-gray-700 hover:text-flyp transition-colors"
+            >
+              How It Works
+            </button>
+            <button 
+              onClick={() => scrollToSection('#faq')} 
+              className="text-gray-700 hover:text-flyp transition-colors"
+            >
+              FAQ
+            </button>
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-flyp to-flyp-400 rounded-full blur opacity-30 group-hover:opacity-100 transition duration-1000"></div>
-              <Link 
-                to="/#experts" 
+              <button 
+                onClick={() => scrollToSection('#experts')}
                 className="relative bg-white text-flyp border border-flyp rounded-full px-5 py-2 hover:shadow-md transition-all"
               >
                 Find an Expert
-              </Link>
+              </button>
             </div>
           </nav>
           
@@ -69,35 +119,40 @@ const Navbar = () => {
         )}
       >
         <div className="px-4 pt-2 pb-6 space-y-2">
-          <Link 
-            to="/" 
-            className="block py-3 text-gray-700 hover:text-flyp"
-            onClick={() => setIsMenuOpen(false)}
+          <button 
+            onClick={() => {
+              scrollToSection('#hero');
+              setIsMenuOpen(false);
+            }} 
+            className="block w-full text-left py-3 text-gray-700 hover:text-flyp"
           >
             Home
-          </Link>
-          <Link 
-            to="/#experts" 
-            className="block py-3 text-gray-700 hover:text-flyp"
-            onClick={() => setIsMenuOpen(false)}
+          </button>
+          <button 
+            onClick={() => scrollToSection('#experts')} 
+            className="block w-full text-left py-3 text-gray-700 hover:text-flyp"
           >
             Experts
-          </Link>
-          <Link 
-            to="/#features" 
-            className="block py-3 text-gray-700 hover:text-flyp"
-            onClick={() => setIsMenuOpen(false)}
+          </button>
+          <button 
+            onClick={() => scrollToSection('#features')} 
+            className="block w-full text-left py-3 text-gray-700 hover:text-flyp"
           >
             How It Works
-          </Link>
+          </button>
+          <button 
+            onClick={() => scrollToSection('#faq')} 
+            className="block w-full text-left py-3 text-gray-700 hover:text-flyp"
+          >
+            FAQ
+          </button>
           <div className="pt-2">
-            <Link 
-              to="/#experts" 
+            <button 
+              onClick={() => scrollToSection('#experts')}
               className="block w-full text-center bg-flyp text-white rounded-full py-3 hover:bg-flyp-600"
-              onClick={() => setIsMenuOpen(false)}
             >
               Find an Expert
-            </Link>
+            </button>
           </div>
         </div>
       </div>

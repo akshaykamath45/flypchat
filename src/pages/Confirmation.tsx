@@ -21,6 +21,12 @@ const Confirmation = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
+ // Customer details form state
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [additionalInfo, setAdditionalInfo] = useState('');
+  
   const expert = id ? getExpertById(id) : undefined;
   const selectedDuration = durations.find(d => d.value === duration);
   
@@ -38,7 +44,38 @@ const Confirmation = () => {
     }
   }, [expert, date, time, duration, navigate]);
   
+  const validateForm = () => {
+    if (!customerName.trim()) {
+      setError('Please enter your full name');
+      return false;
+    }
+    
+    if (!customerEmail.trim()) {
+      setError('Please enter your email address');
+      return false;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(customerEmail)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    
+    if (customerPhone && customerPhone.length !== 10) {
+      setError('Phone number must be 10 digits');
+      return false;
+    }
+    
+    return true;
+  };
+  
   const handleConfirmBooking = () => {
+    setError(null);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsLoading(true);
     
     // Simulate API call
@@ -141,7 +178,69 @@ const Confirmation = () => {
                       </span>
                     </div>
                   </div>
-                  
+
+                  <div className="mb-8 space-y-4">
+                    <h3 className="text-lg font-medium mb-4">Customer Details</h3>
+                    
+                    <div>
+                      <label htmlFor="customerName" className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                      <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Enter your full name"
+                        maxLength={50}
+                        className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-flyp focus:border-transparent"
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="customerEmail" className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                      <input
+                        type="email"
+                        id="customerEmail"
+                        placeholder="Enter your email address"
+                        className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-flyp focus:border-transparent"
+                        value={customerEmail}
+                        onChange={(e) => setCustomerEmail(e.target.value)}
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="customerPhone" className="block text-sm font-medium text-gray-700 mb-1">Contact Number (Optional)</label>
+                      <input
+                        type="tel"
+                        id="customerPhone"
+                        placeholder="Enter your 10-digit phone number"
+                        maxLength={10}
+                        className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-flyp focus:border-transparent"
+                        value={customerPhone}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '');
+                          setCustomerPhone(value);
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="additionalInfo" className="block text-sm font-medium text-gray-700 mb-1">Additional Information (Optional)</label>
+                      <textarea
+                        id="additionalInfo"
+                        placeholder="Any specific requirements or questions you would like to share with the expert ? (max 300 words)"
+                        className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-flyp focus:border-transparent"
+                        rows={4}
+                        value={additionalInfo}
+                        onChange={(e) => {
+                          const words = e.target.value.trim().split(/\s+/).length;
+                          if (words <= 300) {
+                            setAdditionalInfo(e.target.value);
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+
                   <div className="mb-8">
                     <h3 className="text-lg font-medium mb-4">Payment Method</h3>
                     <div className="border border-gray-200 rounded-lg p-4 flex items-center gap-3">

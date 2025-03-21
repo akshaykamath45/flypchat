@@ -1,11 +1,12 @@
 
 import { useRef, useEffect } from 'react';
 import { Mail, Phone, MessageSquare, ChevronRight, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 
 const Footer = () => {
   const footerRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -30,6 +31,33 @@ const Footer = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    // Handle scroll to section when hash changes
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location]);
+
+  const scrollToSection = (sectionId: string) => {
+    const isHomePage = location.pathname === '/';
+    
+    if (!isHomePage) {
+      // If not on home page, navigate to home page with hash
+      const hash = sectionId.replace('#', '');
+      window.location.href = `/${sectionId}`;
+      return;
+    }
+
+    // If on home page, scroll to section
+    const element = document.querySelector(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <footer className="bg-gray-900 text-white pt-16 pb-8" ref={footerRef}>
@@ -60,28 +88,40 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-3">
               <li>
-                <Link to="/" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                <button 
+                  onClick={() => scrollToSection('#hero')} 
+                  className="text-gray-400 hover:text-white transition-colors flex items-center"
+                >
                   <ChevronRight size={16} className="mr-1" />
                   Home
-                </Link>
+                </button>
               </li>
               <li>
-                <Link to="/#experts" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                <button 
+                  onClick={() => scrollToSection('#experts')} 
+                  className="text-gray-400 hover:text-white transition-colors flex items-center"
+                >
                   <ChevronRight size={16} className="mr-1" />
                   Browse Experts
-                </Link>
+                </button>
               </li>
               <li>
-                <Link to="/#features" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                <button 
+                  onClick={() => scrollToSection('#features')} 
+                  className="text-gray-400 hover:text-white transition-colors flex items-center"
+                >
                   <ChevronRight size={16} className="mr-1" />
                   How It Works
-                </Link>
+                </button>
               </li>
               <li>
-                <Link to="/#faq" className="text-gray-400 hover:text-white transition-colors flex items-center">
+                <button 
+                  onClick={() => scrollToSection('#faq')} 
+                  className="text-gray-400 hover:text-white transition-colors flex items-center"
+                >
                   <ChevronRight size={16} className="mr-1" />
                   FAQ
-                </Link>
+                </button>
               </li>
             </ul>
           </div>
@@ -110,46 +150,35 @@ const Footer = () => {
               <li>
                 <a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center">
                   <ChevronRight size={16} className="mr-1" />
-                  Health & Wellness
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center">
-                  <ChevronRight size={16} className="mr-1" />
-                  Marketing
+                  Business Strategy
                 </a>
               </li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
-            <div className="space-y-4">
-              <div className="flex items-start">
-                <Mail size={20} className="text-flyp mr-3 mt-1" />
-                <span className="text-gray-400">support@flypchat.com</span>
-              </div>
-              <div className="flex items-start">
-                <Phone size={20} className="text-flyp mr-3 mt-1" />
-                <span className="text-gray-400">+1 (555) 123-4567</span>
-              </div>
-              <div className="flex items-start">
-                <MessageSquare size={20} className="text-flyp mr-3 mt-1" />
-                <span className="text-gray-400">Live chat available 24/7</span>
-              </div>
-            </div>
+            <h4 className="text-lg font-semibold mb-4">Contact</h4>
+            <ul className="space-y-3">
+              <li className="flex items-center text-gray-400">
+                <Mail size={16} className="mr-2" />
+                support@flypchat.com
+              </li>
+              <li className="flex items-center text-gray-400">
+                <Phone size={16} className="mr-2" />
+                +1 (555) 123-4567
+              </li>
+              <li className="flex items-center text-gray-400">
+                <MessageSquare size={16} className="mr-2" />
+                Live Chat Support
+              </li>
+            </ul>
           </div>
         </div>
         
-        <div className="border-t border-gray-800 pt-8 mt-8 text-center md:flex md:justify-between md:text-left">
-          <p className="text-gray-500 mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} Flypchat. All rights reserved.
+        <div className="border-t border-gray-800 pt-8">
+          <p className="text-center text-gray-400 text-sm">
+            © {new Date().getFullYear()} Flypchat. All rights reserved.
           </p>
-          <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 justify-center">
-            <a href="#" className="text-gray-500 hover:text-gray-400 transition-colors">Terms of Service</a>
-            <a href="#" className="text-gray-500 hover:text-gray-400 transition-colors">Privacy Policy</a>
-            <a href="#" className="text-gray-500 hover:text-gray-400 transition-colors">Cookie Policy</a>
-          </div>
         </div>
       </div>
     </footer>

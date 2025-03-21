@@ -3,6 +3,7 @@ export type Expert = {
   id: string;
   name: string;
   title: string;
+  email:string;
   avatarUrl: string;
   specialization: string;
   price: number;
@@ -21,6 +22,7 @@ export const experts: Expert[] = [
     id: "exp-1",
     name: "Dr. Sarah Chen",
     title: "Financial Advisor",
+    email: "dr.sarah.chen@flypchat.com",
     avatarUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=988&auto=format&fit=crop&ixlib=rb-4.0.3",
     specialization: "Investment Strategy",
     price: 150,
@@ -30,15 +32,15 @@ export const experts: Expert[] = [
     expertise: ["Retirement Planning", "Stock Market Investment", "Portfolio Diversification", "Risk Management"],
     availability: [
       {
-        date: "2023-11-10",
+        date: "2025-03-24",
         slots: ["10:00", "11:00", "15:00", "16:00"]
       },
       {
-        date: "2023-11-11",
+        date: "2025-03-25",
         slots: ["09:00", "13:00", "14:00", "17:00"]
       },
       {
-        date: "2023-11-12",
+        date: "2025-03-26",
         slots: ["11:00", "12:00", "15:00", "16:00"]
       }
     ]
@@ -47,6 +49,7 @@ export const experts: Expert[] = [
     id: "exp-2",
     name: "Michael Rodriguez",
     title: "Real Estate Consultant",
+    email: "michael.rodriguez@flypchat.com",
     avatarUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3",
     specialization: "Commercial Property",
     price: 125,
@@ -56,15 +59,15 @@ export const experts: Expert[] = [
     expertise: ["Commercial Real Estate", "Property Valuation", "Market Analysis", "Investment Properties"],
     availability: [
       {
-        date: "2023-11-10",
+        date: "2025-03-25",
         slots: ["09:00", "10:00", "14:00", "15:00"]
       },
       {
-        date: "2023-11-11",
+        date: "2025-03-26",
         slots: ["11:00", "12:00", "16:00", "17:00"]
       },
       {
-        date: "2023-11-12",
+        date: "2025-03-27",
         slots: ["10:00", "11:00", "13:00", "16:00"]
       }
     ]
@@ -73,6 +76,7 @@ export const experts: Expert[] = [
     id: "exp-3",
     name: "Emma Thompson",
     title: "Career Coach",
+    email: "emma.thompson@flypchat.com",
     avatarUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=761&auto=format&fit=crop&ixlib=rb-4.0.3",
     specialization: "Tech Industry Careers",
     price: 100,
@@ -82,15 +86,15 @@ export const experts: Expert[] = [
     expertise: ["Resume Building", "Interview Preparation", "Career Transition", "Salary Negotiation"],
     availability: [
       {
-        date: "2023-11-10",
+        date: "2025-03-26",
         slots: ["11:00", "12:00", "16:00", "17:00"]
       },
       {
-        date: "2023-11-11",
+        date: "2025-03-27",
         slots: ["10:00", "13:00", "15:00", "16:00"]
       },
       {
-        date: "2023-11-12",
+        date: "2025-03-28",
         slots: ["09:00", "12:00", "14:00", "17:00"]
       }
     ]
@@ -99,6 +103,7 @@ export const experts: Expert[] = [
     id: "exp-4",
     name: "Dr. James Wilson",
     title: "Health & Wellness Advisor",
+    email: "dr.james.wilson@flypchat.com",
     avatarUrl: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3",
     specialization: "Nutrition & Fitness",
     price: 120,
@@ -108,15 +113,15 @@ export const experts: Expert[] = [
     expertise: ["Nutritional Planning", "Fitness Programming", "Weight Management", "Preventive Health"],
     availability: [
       {
-        date: "2023-11-10",
+        date: "2025-03-27",
         slots: ["09:00", "10:00", "15:00", "16:00"]
       },
       {
-        date: "2023-11-11",
+        date: "2025-03-28",
         slots: ["11:00", "14:00", "15:00", "17:00"]
       },
       {
-        date: "2023-11-12",
+        date: "2025-03-29",
         slots: ["10:00", "12:00", "13:00", "16:00"]
       }
     ]
@@ -125,6 +130,7 @@ export const experts: Expert[] = [
     id: "exp-5",
     name: "Sophia Lee",
     title: "Marketing Strategist",
+    email: "sophia.lee@flypchat.com",
     avatarUrl: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3",
     specialization: "Digital Marketing",
     price: 135,
@@ -134,15 +140,15 @@ export const experts: Expert[] = [
     expertise: ["Social Media Strategy", "Content Marketing", "SEO Optimization", "Brand Development"],
     availability: [
       {
-        date: "2023-11-10",
+        date: "2025-03-28",
         slots: ["10:00", "11:00", "14:00", "17:00"]
       },
       {
-        date: "2023-11-11",
+        date: "2025-03-29",
         slots: ["09:00", "12:00", "15:00", "16:00"]
       },
       {
-        date: "2023-11-12",
+        date: "2025-03-30",
         slots: ["11:00", "13:00", "14:00", "16:00"]
       }
     ]
@@ -151,6 +157,7 @@ export const experts: Expert[] = [
     id: "exp-6",
     name: "David Kim",
     title: "Technology Consultant",
+    email: "david.kim@flypchat.com",
     avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.0.3",
     specialization: "Software Development",
     price: 160,
@@ -160,15 +167,15 @@ export const experts: Expert[] = [
     expertise: ["Software Architecture", "Digital Transformation", "Technology Strategy", "Cloud Solutions"],
     availability: [
       {
-        date: "2023-11-10",
+        date: "2025-03-29",
         slots: ["09:00", "12:00", "13:00", "16:00"]
       },
       {
-        date: "2023-11-11",
+        date: "2025-03-30",
         slots: ["10:00", "11:00", "15:00", "17:00"]
       },
       {
-        date: "2023-11-12",
+        date: "2025-03-31",
         slots: ["09:00", "14:00", "15:00", "16:00"]
       }
     ]

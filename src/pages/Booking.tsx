@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { getExpertById, durations } from '@/lib/data';
 import Navbar from '@/components/Navbar';
@@ -15,10 +15,17 @@ const Booking = () => {
   
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [selectedDuration, setSelectedDuration] = useState(durations[1].value);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialDuration = queryParams.get('duration') || durations[1].value;
+  const [selectedDuration, setSelectedDuration] = useState(initialDuration);
   const [currentWeekStart, setCurrentWeekStart] = useState(startOfWeek(new Date(), { weekStartsOn: 1 }));
   
   const daysInWeek = Array.from({ length: 7 }, (_, i) => addDays(currentWeekStart, i));
+  
+  // Get available time slots for selected date
+  const availableTimeSlots = expert?.availability
+    .find(day => day.date === format(selectedDate, 'yyyy-MM-dd'))?.slots || [];
   
   // Generate time slots
   const timeSlots = [
@@ -42,11 +49,24 @@ const Booking = () => {
   };
   
   const handleDateSelect = (date: Date) => {
+    // Only allow selecting future dates
+    const now = new Date();
+    if (date < new Date(now.setHours(0, 0, 0, 0))) {
+      return;
+    }
     setSelectedDate(date);
     setSelectedTime(null);
   };
-  
+
   const handleTimeSelect = (time: string) => {
+    // Prevent selecting past times on current date
+    const [hours, minutes] = time.split(':').map(Number);
+    const selectedDateTime = new Date(selectedDate);
+    selectedDateTime.setHours(hours, minutes, 0, 0);
+
+    if (selectedDateTime < new Date()) {
+      return;
+    }
     setSelectedTime(time);
   };
   
@@ -116,7 +136,7 @@ const Booking = () => {
                         )}
                       >
                         <span>{duration.label}</span>
-                        <span className="font-medium">${(expert.price * duration.price / 3).toFixed(0)}</span>
+                        <span className="font-medium mr-8">${(expert.price * duration.price / 3).toFixed(0)}</span>
                       </label>
                       <div className={cn(
                         "absolute top-1/2 right-3 -translate-y-1/2 w-5 h-5 border rounded-full",
@@ -166,11 +186,14 @@ const Booking = () => {
                     <button
                       key={i}
                       onClick={() => handleDateSelect(date)}
+                      disabled={date < new Date(new Date().setHours(0, 0, 0, 0))}
                       className={cn(
                         "py-2 rounded-lg text-center text-sm transition-all",
-                        isSameDay(date, selectedDate) 
-                          ? "bg-flyp text-white" 
-                          : "hover:bg-gray-100"
+                        date < new Date(new Date().setHours(0, 0, 0, 0)) 
+                          ? "opacity-50 cursor-not-allowed bg-gray-100 text-gray-400" 
+                          : isSameDay(date, selectedDate) 
+                            ? "bg-flyp text-white" 
+                            : "hover:bg-gray-100"
                       )}
                     >
                       {format(date, 'd')}
@@ -194,24 +217,30 @@ const Booking = () => {
                 </div>
                 
                 <div className="h-[250px] overflow-y-auto pr-2 space-y-2">
-                  {timeSlots.map((time) => (
-                    <button
-                      key={time}
-                      onClick={() => handleTimeSelect(time)}
-                      className={cn(
-                        "flex items-center w-full p-3 border rounded-lg transition-all",
-                        time === selectedTime 
-                          ? "border-flyp bg-flyp-50 text-flyp" 
-                          : "hover:border-flyp-300"
-                      )}
-                    >
-                      <Clock size={16} className="mr-2" />
-                      <span>{time}</span>
-                      {time === selectedTime && (
-                        <Check size={16} className="ml-auto" />
-                      )}
-                    </button>
-                  ))}
+                  {availableTimeSlots.length > 0 ? (
+                    availableTimeSlots.map((time) => (
+                      <button
+                        key={time}
+                        onClick={() => handleTimeSelect(time)}
+                        className={cn(
+                          "flex items-center w-full p-3 border rounded-lg transition-all",
+                          time === selectedTime 
+                            ? "border-flyp bg-flyp-50 text-flyp" 
+                            : "hover:border-flyp-300"
+                        )}
+                      >
+                        <Clock size={16} className="mr-2" />
+                        <span>{time}</span>
+                        {time === selectedTime && (
+                          <Check size={16} className="ml-auto" />
+                        )}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-gray-500">
+                      No available slots for this date
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

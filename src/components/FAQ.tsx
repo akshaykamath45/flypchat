@@ -12,7 +12,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section id="faq" className="py-16 bg-gray-50">
       <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="inline-block bg-flyp-100 text-flyp-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">

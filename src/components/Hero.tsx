@@ -30,13 +30,15 @@ const Hero = () => {
     };
   }, []);
 
-  const scrollToExperts = () => {
-    const expertsSection = document.getElementById('experts');
-    expertsSection?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (sectionId: string) => {
+    const element = document.querySelector(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <section className="relative min-h-screen flex items-center pt-16 pb-24 overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center pt-16 pb-24 overflow-hidden">
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-white -z-10" />
       
@@ -82,48 +84,22 @@ const Hero = () => {
                 "before:rounded-full before:blur before:opacity-70 before:group-hover:opacity-100 before:transition before:duration-1000",
                 "hover:scale-[1.02]"
               )}
-              onClick={scrollToExperts}
+              onClick={() => scrollToSection('#experts')}
             >
               <span className="relative">Find My Expert</span>
             </button>
             
             <button 
               className="btn-secondary hover:bg-gray-100 min-w-[200px]"
-              onClick={() => window.open('#', '_blank')}
+              onClick={() => scrollToSection('#features')}
             >
               How It Works
             </button>
           </div>
         </div>
         
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce" onClick={scrollToExperts}>
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer animate-bounce" onClick={() => scrollToSection('#experts')}>
           <ChevronDown size={32} className="text-flyp" />
-        </div>
-      </div>
-      
-      {/* Statistics */}
-      <div 
-        ref={(el) => (elementsRef.current[4] = el)}
-        className="absolute bottom-0 left-0 right-0 bg-white/80 backdrop-blur-sm py-6 opacity-0"
-        style={{ '--delay': 5 } as React.CSSProperties}
-      >
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap justify-center md:justify-around items-center gap-8 md:gap-4">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-flyp">500+</p>
-              <p className="text-gray-600">Verified Experts</p>
-            </div>
-            <div className="hidden md:block w-px h-12 bg-gray-200"></div>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-flyp">98%</p>
-              <p className="text-gray-600">Client Satisfaction</p>
-            </div>
-            <div className="hidden md:block w-px h-12 bg-gray-200"></div>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-flyp">25K+</p>
-              <p className="text-gray-600">Consultations</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
