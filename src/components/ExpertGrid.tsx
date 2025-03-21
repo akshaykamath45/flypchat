@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
 import ExpertCard from './ExpertCard';
 import { experts } from '@/lib/data';
@@ -8,31 +8,6 @@ import { cn } from '@/lib/utils';
 const ExpertGrid = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('');
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          if (sectionRef.current) {
-            sectionRef.current.classList.add('animate-fade-in');
-            observer.unobserve(sectionRef.current);
-          }
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
 
   const filteredExperts = experts.filter(expert => {
     const matchesSearch = expert.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -47,8 +22,8 @@ const ExpertGrid = () => {
   const specializations = [...new Set(experts.map(expert => expert.specialization))];
 
   return (
-    <section id="experts" className="section-padding bg-gray-50" ref={sectionRef}>
-      <div className="container mx-auto px-6 opacity-0">
+    <section id="experts" className="section-padding py-16 bg-gray-50">
+      <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="inline-block bg-flyp-100 text-flyp-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
             Our Experts

@@ -1,5 +1,4 @@
 
-import { useRef, useEffect } from 'react';
 import { Shield, Video, Calendar, Lock } from 'lucide-react';
 import { features } from '@/lib/data';
 import { cn } from '@/lib/utils';
@@ -20,53 +19,9 @@ const FeatureIcon = ({ icon }: { icon: string }) => {
 };
 
 const FeaturesSection = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const featureRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          if (sectionRef.current) {
-            sectionRef.current.classList.add('animate-fade-in');
-            sectionObserver.unobserve(sectionRef.current);
-          }
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const featureObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-slide-up');
-            featureObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -100px 0px' }
-    );
-
-    if (sectionRef.current) {
-      sectionObserver.observe(sectionRef.current);
-    }
-
-    featureRefs.current.forEach((ref) => {
-      if (ref) featureObserver.observe(ref);
-    });
-
-    return () => {
-      if (sectionRef.current) sectionObserver.unobserve(sectionRef.current);
-      featureRefs.current.forEach((ref) => {
-        if (ref) featureObserver.unobserve(ref);
-      });
-    };
-  }, []);
-
   return (
-    <section id="features" className="section-padding bg-white" ref={sectionRef}>
-      <div className="container mx-auto px-6 opacity-0">
+    <section id="features" className="py-16 bg-white">
+      <div className="container mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block bg-flyp-100 text-flyp-700 px-4 py-1.5 rounded-full text-sm font-medium mb-4">
             How It Works
@@ -81,9 +36,8 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div 
               key={feature.title}
-              ref={(el) => (featureRefs.current[index] = el)}
               className={cn(
-                "opacity-0 p-6 rounded-xl transition-all duration-300",
+                "p-6 rounded-xl transition-all duration-300",
                 "bg-gradient-to-br from-white to-gray-50",
                 "border border-gray-100 hover:border-gray-200",
                 "shadow-sm hover:shadow-md"

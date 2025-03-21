@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { Star, Shield, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Expert } from '@/lib/data';
@@ -12,31 +12,6 @@ interface ExpertCardProps {
 
 const ExpertCard = ({ expert, index }: ExpertCardProps) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          if (cardRef.current) {
-            cardRef.current.classList.add('animate-slide-up');
-            observer.unobserve(cardRef.current);
-          }
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
-    };
-  }, []);
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);
@@ -44,9 +19,8 @@ const ExpertCard = ({ expert, index }: ExpertCardProps) => {
 
   return (
     <div 
-      ref={cardRef}
       className={cn(
-        "opacity-0 group",
+        "group",
         "relative bg-white rounded-xl overflow-hidden transition duration-300 shadow-md hover:shadow-xl",
         "transform hover:-translate-y-1"
       )}
@@ -62,8 +36,8 @@ const ExpertCard = ({ expert, index }: ExpertCardProps) => {
             src={expert.avatarUrl} 
             alt={expert.name} 
             className={cn(
-              "w-full h-full object-cover transition-all duration-500 image-load-blur",
-              isImageLoaded ? "image-loaded" : ""
+              "w-full h-full object-cover transition-all duration-500",
+              isImageLoaded ? "blur-none" : "blur-sm"
             )}
             onLoad={handleImageLoad}
           />
