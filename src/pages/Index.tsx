@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import ExpertGrid from '@/components/ExpertGrid';
 import FeaturesSection from '@/components/FeaturesSection';
 import FAQ from '@/components/FAQ';
+import BecomeExpert from '@/components/BecomeExpert';
 import Footer from '@/components/Footer';
 import { useEffect } from 'react';
 
@@ -21,6 +22,7 @@ const Index = () => {
         <ExpertGrid />
         <FeaturesSection />
         <FAQ />
+        <BecomeExpert />
       </main>
       <Footer />
     </div>
